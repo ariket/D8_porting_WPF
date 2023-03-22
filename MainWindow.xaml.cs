@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace D8_porting_WPF
 {
@@ -24,26 +25,47 @@ namespace D8_porting_WPF
         {
             InitializeComponent();
             // Gör all initiering nedanför den här texten!
+            string Ititle = Scenery.HelpTitle();
+            string Itext = Scenery.HelpText();
+            
+            Title.Text = Ititle;
+            Text.Text = "Välkommen till sceneriet!\n\n\n" + Itext + "Skriv 'h' för hjälp, 'x' för att sluta!";
+            
         }
         private void ApplicationKeyPress(object sender, KeyEventArgs e)
         {
             string output = "Key pressed: ";
             output += e.Key.ToString();
             KeyPressDisplay.Text = output;
-            if(e.Key == Key.Escape)
+            if(e.Key == Key.Escape || e.Key == Key.X || e.Key == Key.Q)
             {
                 System.Windows.Application.Current.Shutdown();
             }
-            else if(e.Key == Key.A)
+            else if(e.Key == Key.S)
             {
-                Title.Text = "AAAAAAAAAH!";
-                Text.Text = "Namen aaaaah!\nÅååååh!\nÄäääää!";
+                Scenery.DoCommand("s");
+                Title.Text = Scenery.CurrentTitle("s"); ;
+                Text.Text = Scenery.CurrentText("s");
             }
-            else if (e.Key == Key.I)
+            else if (e.Key == Key.F)
             {
-                Title.Text = "IIIIIIIIIH!";
-                Text.Text = "Jasäjabah iiiiiiiih!";
+                Scenery.DoCommand("f");
+                Title.Text = Scenery.CurrentTitle("f"); ;
+                Text.Text = Scenery.CurrentText("f");
             }
+            else if (e.Key == Key.N)
+            {
+                Scenery.DoCommand("n");
+                Title.Text = Scenery.CurrentTitle("n"); ;
+                Text.Text = Scenery.CurrentText("n");
+            }
+            else if (e.Key == Key.H)
+            {
+                Title.Text = "HELP";
+                Text.Text = Scenery.HelpText();
+            }
+           
+
         }
     }
 }
